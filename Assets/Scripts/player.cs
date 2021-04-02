@@ -7,7 +7,7 @@ public class player : MonoBehaviour
 {
     [Tooltip("In ms^-1")][SerializeField] float xSpeed = 33f;
     [Tooltip("In ms^-1")][SerializeField] float ySpeed = 33f;
-    
+    [Tooltip("In ms^-2")][SerializeField] float gravity = 9.8f;
     [Tooltip("In m")][SerializeField] float[] xrange = {-16f,16f};
     [Tooltip("In m")][SerializeField] float[] yrange = {-10f,10f};
 
@@ -18,18 +18,16 @@ public class player : MonoBehaviour
     [SerializeField] float ControlRollFactor = -20;
 
     float horizontalThrow, verticalThrow;
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
+    bool isControlEnabled = true;
 
     // Update is called once per frame
     void Update()
-    {
-        Translation();
-        Rotation();
-        
+    {   if (isControlEnabled){
+         Translation();
+         Rotation();    
+    }  
+        //gameObject.GetComponent<Rigidbody>().AddForce(Physics.gravity, ForceMode.Acceleration);
+        transform.Translate(Time.deltaTime * gravity * Vector3.down);
     }
 
     private void Rotation(){
@@ -50,8 +48,16 @@ public class player : MonoBehaviour
         verticalThrow = CrossPlatformInputManager.GetAxis("Vertical");
         float Yoffset = verticalThrow * ySpeed * Time.deltaTime;
         float YPos = Mathf.Clamp(transform.localPosition.y + Yoffset, yrange[0],yrange[1]);
-        
-        transform.localPosition = new Vector3(XPos,YPos,transform.localPosition.z);
+
+        float ZPos = Mathf.Clamp(transform.localPosition.z, 18.4f,18.4f);
+
+        transform.localPosition = new Vector3(XPos,YPos,ZPos);
         //transform.Translate(Xoffset,0,0);
     }
+
+    void OnPlayerDeath(){
+        print("Freeze the controls");
+        isControlEnabled = false;
+    }
 }
+ 
