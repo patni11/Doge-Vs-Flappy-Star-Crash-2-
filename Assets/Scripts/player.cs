@@ -60,4 +60,3 @@ public class player : MonoBehaviour
         isControlEnabled = false;
     }
 }
- 
