@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4465149251518673361}
   - component: {fileID: 4464185750621545761}
   - component: {fileID: 6371965388100738579}
+  - component: {fileID: 7141162126078313136}
   m_Layer: 0
   m_Name: Bullet Explosiion
   m_TagString: Untagged
@@ -49,7 +50,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   looping: 0
   prewarm: 0
-  playOnAwake: 0
+  playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1
@@ -4851,3 +4852,15 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &7141162126078313136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4553833641175715247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc98a551468154818ba12a778e1aaafe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

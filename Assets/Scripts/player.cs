@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
-
 public class player : MonoBehaviour
 {
     [Tooltip("In ms^-1")][SerializeField] float xSpeed = 33f;
@@ -17,17 +16,55 @@ public class player : MonoBehaviour
     [SerializeField] float ControlPitchFactor = -10;
     [SerializeField] float ControlRollFactor = -20;
 
+    System.Random temp = new System.Random();
+    float gravityTime = 6;
     float horizontalThrow, verticalThrow;
     bool isControlEnabled = true;
-
+    bool isAntiGravityEnabled = false;
     // Update is called once per frame
+
+    GameObject antiGravityVideo;
+
     void Update()
     {   if (isControlEnabled){
          Translation();
          Rotation();    
     }  
-        //gameObject.GetComponent<Rigidbody>().AddForce(Physics.gravity, ForceMode.Acceleration);
-        transform.Translate(Time.deltaTime * gravity * Vector3.down);
+        //gameObject.GetComponent<Rigidbody>().AddForce(Physics.gravity, ForceMode.Acceleration);  
+        if (isAntiGravityEnabled){
+            transform.Translate(Time.deltaTime * gravity * Vector3.up);
+        }else{
+            transform.Translate(Time.deltaTime * gravity * Vector3.down);
+        }
+    }
+
+    void Start(){
+        antiGravityVideo = GameObject.Find("gravityVid");
+        antiGravityVideo.SetActive(false);
+        Invoke("Gravity",gravityTime);
+    }
+
+    private void Gravity(){
+        if (isAntiGravityEnabled){
+            isAntiGravityEnabled = false;
+            gravityTime = temp.Next(5, 12);
+        }else{
+            isAntiGravityEnabled = true;
+            gravityTime = temp.Next(5, 12);
+        }
+        AddAntiGravityVideo();
+        Invoke("Gravity",gravityTime);
+        
+    }
+
+    private void AddAntiGravityVideo(){
+        if (antiGravityVideo.activeSelf){
+            antiGravityVideo.SetActive(false);
+        }else{
+            antiGravityVideo.SetActive(true);
+            Invoke("AddAntiGravityVideo",2);
+        }
+        
     }
 
     private void Rotation(){
@@ -56,7 +93,6 @@ public class player : MonoBehaviour
     }
 
     void OnPlayerDeath(){
-        print("Freeze the controls");
         isControlEnabled = false;
     }
 }
